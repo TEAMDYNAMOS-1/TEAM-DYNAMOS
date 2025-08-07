@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Portal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+    .container {
+      background-color: #fff;
+      max-width: 480px;
+      width: 100%;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #2575fc;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      color: #444;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1.8px solid #ccc;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37,117,252,0.4);
+    }
+    button {
+      width: 100%;
+      background: #2575fc;
+      color: white;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #1b4bc7;
+    }
+    .link {
+      text-align: center;
+      margin-top: 15px;
+      color: #2575fc;
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    .error {
+      color: #d93025;
+      font-size: 14px;
+      margin-top: -16px;
+      margin-bottom: 14px;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+    .details-box {
+      background: #f1f5ff;
+      border-left: 5px solid #2575fc;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+    .details-box p {
+      font-size: 16px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .greeting-message {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2575fc;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Registration -->
+  <div class="container" id="registrationDiv">
+    <h2>Register Student</h2>
+    <form id="registrationForm" novalidate>
+      <label>Full Name</label>
+      <input type="text" id="fullname" />
+      <div class="error" id="fullnameError"></div>
+
+      <label>Roll Number</label>
+      <input type="text" id="rollno" />
+      <div class="error" id="rollnoError"></div>
+
+      <label>Year of Study</label>
+      <select id="year">
+        <option value="">Select Year</option>
+        <option value="1st Year">1st Year</option>
+        <option value="2nd Year">2nd Year</option>
+        <option value="3rd Year">3rd Year</option>
+        <option value="4th Year">4th Year</option>
+      </select>
+      <div class="error" id="yearError"></div>
+
+      <label>Gender</label>
+      <select id="gender">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="error" id="genderError"></div>
+
+      <label>Branch</label>
+      <input type="text" id="branch" />
+      <div class="error" id="branchError"></div>
+
+      <label>Email</label>
+      <input type="email" id="email" />
+      <div class="error" id="emailError"></div>
+
+      <label>Username</label>
+      <input type="text" id="regUsername" />
+      <div class="error" id="usernameError"></div>
+
+      <label>Password</label>
+      <input type="password" id="regPassword" />
+      <div class="error" id="passwordError"></div>
+
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" />
+      <div class="error" id="confirmPasswordError"></div>
+
+      <button type="submit">Register</button>
+    </form>
+    <div class="link" id="toLogin">Already have an account? Login</div>
+  </div>
+
+  <!-- Registration Success -->
+  <div class="container" id="detailsDiv" style="display:none;">
+    <h2>Registration Successful</h2>
+    <div class="details-box" id="userDetails"></div>
+    <button onclick="goToLogin()">Proceed to Login</button>
+  </div>
+
+  <!-- Login -->
+  <div class="container" id="loginDiv" style="display:none;">
+    <h2>Student Login</h2>
+    <form id="loginForm" novalidate>
+      <label>Username</label>
+      <input type="text" id="loginUsername" />
+      <div class="error" id="loginUsernameError"></div>
+
+      <label>Password</label>
+      <input type="password" id="loginPassword" />
+      <div class="error" id="loginPasswordError"></div>
+
+      <button type="submit">Login</button>
+    </form>
+    <div class="link" id="toRegister">New user? Register</div>
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+  <!-- Greeting Page -->
+  <div class="container" id="greetingDiv" style="display:none;">
+
+    <div class="greeting-message" id="greetingText"></div>
+  </div>
+
+  <script>
+    const registrationDiv = document.getElementById("registrationDiv");
+    const loginDiv = document.getElementById("loginDiv");
+    const detailsDiv = document.getElementById("detailsDiv");
+    const greetingDiv = document.getElementById("greetingDiv");
+    const userDetails = document.getElementById("userDetails");
+
+    const toLogin = document.getElementById("toLogin");
+    const toRegister = document.getElementById("toRegister");
+
+    toLogin.onclick = () => {
+      registrationDiv.style.display = "none";
+      loginDiv.style.display = "block";
+      detailsDiv.style.display = "none";
+      greetingDiv.style.display = "none";
+    };
+
+    toRegister.onclick = () => {
+      loginDiv.style.display = "none";
+      registrationDiv.style.display = "block";
+      detailsDiv.style.display = "none";
+      greetingDiv.style.display = "none";
+    };
+
+    function goToLogin() {
+      detailsDiv.style.display = "none";
+      loginDiv.style.display = "block";
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let isValid = true;
+
+      const fullname = document.getElementById("fullname").value.trim();
+      const rollno = document.getElementById("rollno").value.trim();
+      const year = document.getElementById("year").value;
+      const gender = document.getElementById("gender").value;
+      const branch = document.getElementById("branch").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const username = document.getElementById("regUsername").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      function setError(id, msg) {
+        document.getElementById(id).textContent = msg;
+        isValid = false;
+      }
+
+      ['fullnameError','rollnoError','yearError','genderError','branchError','emailError','usernameError','passwordError','confirmPasswordError']
+        .forEach(id => document.getElementById(id).textContent = '');
+
+      if (!fullname || fullname.length < 3) setError("fullnameError", "Full name must be at least 3 characters.");
+      if (!rollno) setError("rollnoError", "Roll number required.");
+      if (!year) setError("yearError", "Select year of study.");
+      if (!gender) setError("genderError", "Select gender.");
+      if (!branch) setError("branchError", "Enter branch.");
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) setError("emailError", "Enter valid email.");
+      if (!username || username.length < 4) setError("usernameError", "Username must be at least 4 characters.");
+      if (localStorage.getItem("user_" + username)) setError("usernameError", "Username already exists.");
+      if (!password || password.length < 6) setError("passwordError", "Password must be at least 6 characters.");
+      if (password !== confirmPassword) setError("confirmPasswordError", "Passwords do not match.");
+
+      if (!isValid) return;
+
+      const user = { fullname, rollno, year, gender, branch, email, username, password };
+      localStorage.setItem("user_" + username, JSON.stringify(user));
+
+      userDetails.innerHTML = `
+        <p><strong>Full Name:</strong> ${fullname}</p>
+        <p><strong>Roll Number:</strong> ${rollno}</p>
+        <p><strong>Year:</strong> ${year}</p>
+        <p><strong>Gender:</strong> ${gender}</p>
+        <p><strong>Branch:</strong> ${branch}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Username:</strong> ${username}</p>
+      `;
+
+      registrationDiv.style.display = "none";
+      detailsDiv.style.display = "block";
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      document.getElementById("loginUsernameError").textContent = '';
+      document.getElementById("loginPasswordError").textContent = '';
+      document.getElementById("loginMessage").textContent = '';
+
+      if (!username || !password) {
+        if (!username) document.getElementById("loginUsernameError").textContent = "Username required.";
+        if (!password) document.getElementById("loginPasswordError").textContent = "Password required.";
+        return;
+      }
+
+      const userData = JSON.parse(localStorage.getItem("user_" + username));
+      if (!userData || userData.password !== password) {
+        document.getElementById("loginMessage").textContent = "Invalid username or password.";
+        document.getElementById("loginMessage").style.color = "red";
+        return;
+      }
+
+      loginDiv.style.display = "none";
+      greetingDiv.style.display = "block";
+
+      const greeting = getGreeting();
+      document.getElementById("greetingText").textContent = `${greeting}, ${userData.fullname}!`;
+    });
+
+ function getGreeting() {
+  const hour = new Date().getHours();
+  const minutes = new Date().getMinutes();
+
+  if (hour >= 5 && hour < 12) {
+    return "Good Morning ☕🍞🥛";
+  } else if (hour === 12 && minutes === 0) {
+    return "Good Noon 🌞";
+  } else if ((hour === 12 && minutes > 0) || (hour > 12 && hour < 17)) {
+    return "Good Afternoon 🥤🥗🍔🍗🍟🥓";
+  } else {
+    return "Good Night 🥖🍞🥐🥨🥪🥯";
+  }
+}
+
+
+  </script>
+</body>
+</html>
 
